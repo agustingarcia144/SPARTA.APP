@@ -1,12 +1,32 @@
+import { useState, useMemo } from 'react'
 import { ThemeProvider, CssBaseline } from '@mui/material'
-import { theme } from './theme/theme'
-import Dashboard from './components/Dashboard'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { getTheme } from './theme/theme'
+import Layout from './components/Layout'
+import History from './feature/history/history'
+import Configuration from './feature/configuration/configuration'
 
 function App() {
+  const [mode, setMode] = useState('dark')
+
+  const theme = useMemo(() => getTheme(mode), [mode])
+
+  const toggleMode = () => {
+    setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'))
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Dashboard />
+      <BrowserRouter>
+        <Layout mode={mode} toggleMode={toggleMode}>
+          <Routes>
+            <Route path="/" element={<Navigate to="/history" replace />} />
+            <Route path="/history" element={<History />} />
+            <Route path="/configuration" element={<Configuration />} />
+          </Routes>
+        </Layout>
+      </BrowserRouter>
     </ThemeProvider>
   )
 }
