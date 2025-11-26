@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import authService from '../services/authService'
 import {
@@ -18,6 +18,7 @@ import {
     MenuItem,
     Tooltip,
     useTheme,
+    Collapse,
 } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
 import HistoryIcon from '@mui/icons-material/History'
@@ -28,6 +29,9 @@ import WaterDropIcon from '@mui/icons-material/WaterDrop'
 import LogoutIcon from '@mui/icons-material/Logout'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
+import PeopleIcon from '@mui/icons-material/People'
+import ExpandLess from '@mui/icons-material/ExpandLess'
+import ExpandMore from '@mui/icons-material/ExpandMore'
 
 const drawerWidth = 280
 const drawerWidthCollapsed = 64
@@ -42,6 +46,13 @@ const menuItems = [
         text: 'Configuración',
         icon: <SettingsIcon />,
         path: '/configuration',
+        subItems: [
+            {
+                text: 'Usuario',
+                icon: <PeopleIcon />,
+                path: '/configuration/users',
+            },
+        ],
     },
 ]
 
@@ -52,6 +63,9 @@ function Layout({ children, mode, toggleMode }) {
     const navigate = useNavigate()
     const location = useLocation()
     const theme = useTheme()
+
+    const isConfigurationActive = location.pathname.startsWith('/configuration')
+    const [openSubmenu, setOpenSubmenu] = useState(isConfigurationActive)
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen)
@@ -81,9 +95,21 @@ function Layout({ children, mode, toggleMode }) {
     }
 
     const getPageTitle = () => {
+        if (location.pathname === '/configuration/users') {
+            return 'Usuarios'
+        }
         const currentItem = menuItems.find((item) => item.path === location.pathname)
         return currentItem ? currentItem.text : 'SPARTA'
     }
+
+    const handleSubmenuToggle = () => {
+        setOpenSubmenu(!openSubmenu)
+    }
+
+    // Actualizar el estado del submenú cuando cambia la ruta
+    useEffect(() => {
+        setOpenSubmenu(isConfigurationActive)
+    }, [isConfigurationActive])
 
     const drawer = (
         <Box>
@@ -113,48 +139,108 @@ function Layout({ children, mode, toggleMode }) {
             <Divider />
             <List>
                 {menuItems.map((item) => (
-                    <ListItem key={item.text} disablePadding>
-                        <Tooltip title={collapsed ? item.text : ''} placement="right">
-                            <ListItemButton
-                                selected={location.pathname === item.path}
-                                onClick={() => handleNavigation(item.path)}
-                                sx={{
-                                    minHeight: 48,
-                                    justifyContent: collapsed ? 'center' : 'flex-start',
-                                    px: collapsed ? 2.5 : 3,
-                                    '&.Mui-selected': {
-                                        backgroundColor: 'transparent',
-                                        color: 'primary.main',
-                                        '&:hover': {
-                                            backgroundColor: 'action.hover',
-                                        },
-                                        '& .MuiListItemIcon-root': {
-                                            color: 'primary.main',
-                                        },
-                                    },
-                                }}
-                            >
-                                <ListItemIcon
+                    <Box key={item.text}>
+                        <ListItem disablePadding>
+                            <Tooltip title={collapsed ? item.text : ''} placement="right">
+                                <ListItemButton
+                                    selected={item.subItems ? isConfigurationActive : location.pathname === item.path}
+                                    onClick={() => {
+                                        if (item.subItems) {
+                                            if (!collapsed) {
+                                                handleSubmenuToggle()
+                                            } else {
+                                                handleNavigation(item.subItems[0].path)
+                                            }
+                                        } else {
+                                            handleNavigation(item.path)
+                                        }
+                                    }}
                                     sx={{
-                                        minWidth: 0,
-                                        mr: collapsed ? 0 : 3,
-                                        justifyContent: 'center',
-                                        color: location.pathname === item.path ? 'primary.main' : 'inherit',
+                                        minHeight: 48,
+                                        justifyContent: collapsed ? 'center' : 'flex-start',
+                                        px: collapsed ? 2.5 : 3,
+                                        '&.Mui-selected': {
+                                            backgroundColor: 'transparent',
+                                            color: 'primary.main',
+                                            '&:hover': {
+                                                backgroundColor: 'action.hover',
+                                            },
+                                            '& .MuiListItemIcon-root': {
+                                                color: 'primary.main',
+                                            },
+                                        },
                                     }}
                                 >
-                                    {item.icon}
-                                </ListItemIcon>
-                                {!collapsed && (
-                                    <ListItemText
-                                        primary={item.text}
+                                    <ListItemIcon
                                         sx={{
-                                            color: location.pathname === item.path ? 'primary.main' : 'inherit',
+                                            minWidth: 0,
+                                            mr: collapsed ? 0 : 3,
+                                            justifyContent: 'center',
+                                            color: (item.subItems ? isConfigurationActive : location.pathname === item.path) ? 'primary.main' : 'inherit',
                                         }}
-                                    />
-                                )}
-                            </ListItemButton>
-                        </Tooltip>
-                    </ListItem>
+                                    >
+                                        {item.icon}
+                                    </ListItemIcon>
+                                    {!collapsed && (
+                                        <>
+                                            <ListItemText
+                                                primary={item.text}
+                                                sx={{
+                                                    color: (item.subItems ? isConfigurationActive : location.pathname === item.path) ? 'primary.main' : 'inherit',
+                                                }}
+                                            />
+                                            {item.subItems && (openSubmenu ? <ExpandLess /> : <ExpandMore />)}
+                                        </>
+                                    )}
+                                </ListItemButton>
+                            </Tooltip>
+                        </ListItem>
+                        {item.subItems && !collapsed && (
+                            <Collapse in={openSubmenu} timeout="auto" unmountOnExit>
+                                <List component="div" disablePadding>
+                                    {item.subItems.map((subItem) => (
+                                        <ListItem key={subItem.text} disablePadding>
+                                            <ListItemButton
+                                                selected={location.pathname === subItem.path}
+                                                onClick={() => handleNavigation(subItem.path)}
+                                                sx={{
+                                                    pl: 6,
+                                                    minHeight: 48,
+                                                    '&.Mui-selected': {
+                                                        backgroundColor: 'transparent',
+                                                        color: 'primary.main',
+                                                        '&:hover': {
+                                                            backgroundColor: 'action.hover',
+                                                        },
+                                                        '& .MuiListItemIcon-root': {
+                                                            color: 'primary.main',
+                                                        },
+                                                    },
+                                                }}
+                                            >
+                                                <ListItemIcon
+                                                    sx={{
+                                                        minWidth: 0,
+                                                        mr: 3,
+                                                        justifyContent: 'center',
+                                                        color: location.pathname === subItem.path ? 'primary.main' : 'inherit',
+                                                    }}
+                                                >
+                                                    {subItem.icon}
+                                                </ListItemIcon>
+                                                <ListItemText
+                                                    primary={subItem.text}
+                                                    sx={{
+                                                        color: location.pathname === subItem.path ? 'primary.main' : 'inherit',
+                                                    }}
+                                                />
+                                            </ListItemButton>
+                                        </ListItem>
+                                    ))}
+                                </List>
+                            </Collapse>
+                        )}
+                    </Box>
                 ))}
             </List>
         </Box>

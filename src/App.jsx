@@ -7,6 +7,7 @@ import Login from './components/Login'
 import ProtectedRoute from './components/ProtectedRoute'
 import History from './feature/history/history'
 import Configuration from './feature/configuration/configuration'
+import Users from './feature/users/users'
 
 function App() {
   const [mode, setMode] = useState('dark')
@@ -32,6 +33,7 @@ function App() {
                     <Route path="/" element={<Navigate to="/history" replace />} />
                     <Route path="/history" element={<History />} />
                     <Route path="/configuration" element={<Configuration />} />
+                    <Route path="/configuration/users" element={<Users />} />
                   </Routes>
                 </Layout>
               </ProtectedRoute>
