@@ -3,6 +3,8 @@ import { ThemeProvider, CssBaseline } from '@mui/material'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { getTheme } from './theme/theme'
 import Layout from './components/Layout'
+import Login from './components/Login'
+import ProtectedRoute from './components/ProtectedRoute'
 import History from './feature/history/history'
 import Configuration from './feature/configuration/configuration'
 
@@ -19,13 +21,23 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <BrowserRouter>
-        <Layout mode={mode} toggleMode={toggleMode}>
-          <Routes>
-            <Route path="/" element={<Navigate to="/history" replace />} />
-            <Route path="/history" element={<History />} />
-            <Route path="/configuration" element={<Configuration />} />
-          </Routes>
-        </Layout>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route
+            path="/*"
+            element={
+              <ProtectedRoute>
+                <Layout mode={mode} toggleMode={toggleMode}>
+                  <Routes>
+                    <Route path="/" element={<Navigate to="/history" replace />} />
+                    <Route path="/history" element={<History />} />
+                    <Route path="/configuration" element={<Configuration />} />
+                  </Routes>
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
       </BrowserRouter>
     </ThemeProvider>
   )

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
+import authService from '../services/authService'
 import {
     Box,
     Drawer,
@@ -71,9 +72,8 @@ function Layout({ children, mode, toggleMode }) {
 
     const handleLogout = () => {
         handleMenuClose()
-        // TODO: Implement logout logic
-        console.log('Logout clicked')
-        // Example: navigate('/login') or clear session, etc.
+        authService.logout()
+        navigate('/login')
     }
 
     const toggleCollapse = () => {
