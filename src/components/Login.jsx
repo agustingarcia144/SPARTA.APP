@@ -15,8 +15,9 @@ import {
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
-import PersonIcon from '@mui/icons-material/Person'
+import EmailIcon from '@mui/icons-material/Email'
 import authService from '../services/authService'
+import logoImage from '../asset/image/logo.png'
 
 function Login() {
   const [username, setUsername] = useState('')
@@ -48,47 +49,63 @@ function Login() {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        background: '#1E1E1E',
         padding: 2,
       }}
     >
       <Container maxWidth="sm">
         <Paper
-          elevation={24}
+          elevation={0}
           sx={{
-            padding: 4,
+            padding: 5,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            backgroundColor: 'rgba(18, 18, 18, 0.95)',
-            backdropFilter: 'blur(10px)',
+            backgroundColor: '#2A2A2A',
             borderRadius: 4,
-            border: '1px solid rgba(255, 255, 255, 0.1)',
+            border: 'none',
+            width: '100%',
+            maxWidth: '450px',
+            overflow: 'hidden',
+            position: 'relative',
           }}
         >
           <Box
             sx={{
-              backgroundColor: 'primary.main',
-              borderRadius: '50%',
-              padding: 2,
-              marginBottom: 2,
+              marginBottom: 4,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
+              width: '100%',
+              position: 'relative',
+              zIndex: 1,
             }}
           >
-            <LockOutlinedIcon sx={{ fontSize: 40, color: 'white' }} />
+            <Box
+              component="img"
+              src={logoImage}
+              alt="SPARTA Logo"
+              sx={{
+                width: '140px',
+                height: '140px',
+                objectFit: 'contain',
+                display: 'block',
+                maxWidth: '100%',
+                maxHeight: '100%',
+              }}
+            />
           </Box>
 
           <Typography
             component="h1"
-            variant="h4"
+            variant="h3"
             sx={{
               fontWeight: 700,
-              marginBottom: 1,
-              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
+              marginBottom: 1.5,
+              color: '#FFFFFF',
+              textTransform: 'uppercase',
+              letterSpacing: '3px',
+              fontSize: { xs: '2rem', sm: '2.5rem' },
             }}
           >
             SPARTA
@@ -98,10 +115,15 @@ function Login() {
             variant="body2"
             sx={{
               marginBottom: 4,
-              color: 'text.secondary',
+              color: '#FFFFFF',
+              fontSize: '0.7rem',
+              textTransform: 'uppercase',
+              letterSpacing: '2px',
+              fontWeight: 500,
+              textAlign: 'center',
             }}
           >
-            Inicia sesión para continuar
+            PREDICTIVE REGRESSION & TESTING
           </Typography>
 
           {error && (
@@ -111,81 +133,117 @@ function Login() {
           )}
 
           <Box component="form" onSubmit={handleSubmit} sx={{ width: '100%' }}>
+            <Typography
+              variant="h6"
+              sx={{
+                marginBottom: 3,
+                color: '#FFFFFF',
+                fontWeight: 700,
+                fontSize: '1.25rem',
+                textAlign: 'left',
+                width: '100%',
+              }}
+            >
+              Hola!
+            </Typography>
             <TextField
-              margin="normal"
               required
               fullWidth
               id="username"
-              label="Username"
+              label="USUARIO"
               name="username"
               autoComplete="username"
               autoFocus
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               sx={{
+                mb: 2.5,
                 '& .MuiOutlinedInput-root': {
                   backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                  color: '#FFFFFF',
+                  borderRadius: 1,
                   '& fieldset': {
-                    borderColor: 'rgba(255, 255, 255, 0.2)',
+                    borderColor: '#FFFFFF',
+                    borderWidth: '1.5px',
                   },
                   '&:hover fieldset': {
-                    borderColor: 'rgba(255, 255, 255, 0.3)',
+                    borderColor: '#FFFFFF',
                   },
                   '&.Mui-focused fieldset': {
-                    borderColor: 'primary.main',
+                    borderColor: '#C792FC',
+                    borderWidth: '2px',
                   },
                 },
                 '& .MuiInputLabel-root': {
-                  color: 'text.secondary',
+                  color: '#FFFFFF',
+                  textTransform: 'uppercase',
+                  fontWeight: 600,
+                  fontSize: '0.875rem',
                 },
                 '& .MuiInputLabel-root.Mui-focused': {
-                  color: 'primary.main',
+                  color: '#C792FC',
+                },
+                '& .MuiInputBase-input': {
+                  color: '#FFFFFF',
+                  '&::placeholder': {
+                    color: 'rgba(255, 255, 255, 0.5)',
+                  },
                 },
               }}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
-                    <PersonIcon sx={{ color: 'text.secondary' }} />
+                    <EmailIcon sx={{ color: '#FFFFFF', fontSize: 22 }} />
                   </InputAdornment>
                 ),
               }}
             />
 
             <TextField
-              margin="normal"
               required
               fullWidth
               name="password"
-              label="Password"
+              label="PASSWORD"
               type={showPassword ? 'text' : 'password'}
               id="password"
               autoComplete="current-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               sx={{
+                mb: 1,
                 '& .MuiOutlinedInput-root': {
                   backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                  color: '#FFFFFF',
+                  borderRadius: 1,
                   '& fieldset': {
-                    borderColor: 'rgba(255, 255, 255, 0.2)',
+                    borderColor: '#FFFFFF',
+                    borderWidth: '1.5px',
                   },
                   '&:hover fieldset': {
-                    borderColor: 'rgba(255, 255, 255, 0.3)',
+                    borderColor: '#FFFFFF',
                   },
                   '&.Mui-focused fieldset': {
-                    borderColor: 'primary.main',
+                    borderColor: '#C792FC',
+                    borderWidth: '2px',
                   },
                 },
                 '& .MuiInputLabel-root': {
-                  color: 'text.secondary',
+                  color: '#FFFFFF',
+                  textTransform: 'uppercase',
+                  fontWeight: 600,
+                  fontSize: '0.875rem',
                 },
                 '& .MuiInputLabel-root.Mui-focused': {
-                  color: 'primary.main',
+                  color: '#C792FC',
+                },
+                '& .MuiInputBase-input': {
+                  color: '#FFFFFF',
                 },
               }}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
-                    <LockOutlinedIcon sx={{ color: 'text.secondary', fontSize: 20 }} />
+                    <LockOutlinedIcon sx={{ color: '#FFFFFF', fontSize: 22 }} />
                   </InputAdornment>
                 ),
                 endAdornment: (
@@ -194,7 +252,7 @@ function Login() {
                       aria-label="toggle password visibility"
                       onClick={() => setShowPassword(!showPassword)}
                       edge="end"
-                      sx={{ color: 'text.secondary' }}
+                      sx={{ color: '#FFFFFF', '&:hover': { backgroundColor: 'rgba(255, 255, 255, 0.1)' } }}
                     >
                       {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
                     </IconButton>
@@ -208,22 +266,29 @@ function Login() {
               fullWidth
               variant="contained"
               sx={{
-                mt: 3,
-                mb: 2,
-                padding: 1.5,
+                mt: 4,
+                mb: 1,
+                padding: 1.75,
                 fontSize: '1rem',
-                fontWeight: 600,
-                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                fontWeight: 700,
+                textTransform: 'uppercase',
+                letterSpacing: '1px',
+                backgroundColor: '#C792FC',
+                color: '#FFFFFF',
+                borderRadius: 1,
                 '&:hover': {
-                  background: 'linear-gradient(135deg, #764ba2 0%, #667eea 100%)',
+                  backgroundColor: '#A06BD9',
                   transform: 'translateY(-2px)',
-                  boxShadow: 6,
+                  boxShadow: '0 4px 12px rgba(199, 146, 252, 0.4)',
+                },
+                '&:disabled': {
+                  backgroundColor: 'rgba(199, 146, 252, 0.5)',
                 },
                 transition: 'all 0.3s ease',
               }}
               disabled={loading}
             >
-              {loading ? <CircularProgress size={24} color="inherit" /> : 'Iniciar Sesión'}
+              {loading ? <CircularProgress size={24} color="inherit" /> : 'INGRESAR'}
             </Button>
           </Box>
         </Paper>

@@ -4,20 +4,24 @@ export const getTheme = (mode = 'dark') => createTheme({
   palette: {
     mode: mode,
     primary: {
-      main: '#9C27B0',
-      light: '#E1BEE7',
-      dark: '#7B1FA2',
+      main: '#C792FC',
+      light: '#E8D4FF',
+      dark: '#A06BD9',
       contrastText: '#fff',
     },
     secondary: {
-      main: '#BA68C8',
-      light: '#F3E5F5',
-      dark: '#8E24AA',
+      main: '#C792FC',
+      light: '#E8D4FF',
+      dark: '#A06BD9',
       contrastText: '#fff',
     },
     background: {
       default: mode === 'dark' ? '#121212' : '#f5f5f5',
       paper: mode === 'dark' ? '#1e1e1e' : '#ffffff',
+    },
+    text: {
+      primary: mode === 'dark' ? '#ffffff' : '#1e1e1e',
+      secondary: mode === 'dark' ? 'rgba(255, 255, 255, 0.7)' : 'rgba(0, 0, 0, 0.6)',
     },
   },
   typography: {

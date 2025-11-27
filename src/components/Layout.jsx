@@ -25,20 +25,20 @@ import HistoryIcon from '@mui/icons-material/History'
 import SettingsIcon from '@mui/icons-material/Settings'
 import DarkModeIcon from '@mui/icons-material/DarkMode'
 import LightModeIcon from '@mui/icons-material/LightMode'
-import WaterDropIcon from '@mui/icons-material/WaterDrop'
 import LogoutIcon from '@mui/icons-material/Logout'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import PeopleIcon from '@mui/icons-material/People'
 import ExpandLess from '@mui/icons-material/ExpandLess'
 import ExpandMore from '@mui/icons-material/ExpandMore'
+import logoImage from '../asset/image/logo.png'
 
 const drawerWidth = 280
 const drawerWidthCollapsed = 64
 
 const menuItems = [
     {
-        text: 'Historia',
+        text: 'Historias',
         icon: <HistoryIcon />,
         path: '/history',
     },
@@ -124,13 +124,34 @@ function Layout({ children, mode, toggleMode }) {
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     {!collapsed && (
                         <>
-                            <WaterDropIcon sx={{ color: 'primary.main', mr: 1 }} />
-                            <Typography variant="h6" noWrap component="div" sx={{ fontWeight: 600 }}>
+                            <Box
+                                component="img"
+                                src={logoImage}
+                                alt="SPARTA Logo"
+                                sx={{
+                                    width: 56,
+                                    height: 56,
+                                    mr: 2,
+                                    objectFit: 'contain',
+                                }}
+                            />
+                            <Typography variant="h5" noWrap component="div" sx={{ fontWeight: 700, fontSize: '1.5rem' }}>
                                 SPARTA
                             </Typography>
                         </>
                     )}
-                    {collapsed && <WaterDropIcon sx={{ color: 'primary.main' }} />}
+                    {collapsed && (
+                        <Box
+                            component="img"
+                            src={logoImage}
+                            alt="SPARTA Logo"
+                            sx={{
+                                width: 48,
+                                height: 48,
+                                objectFit: 'contain',
+                            }}
+                        />
+                    )}
                 </Box>
                 <IconButton onClick={toggleCollapse} size="small" sx={{ ml: collapsed ? 0 : 'auto' }}>
                     {collapsed ? <ChevronRightIcon /> : <ChevronLeftIcon />}
@@ -274,10 +295,7 @@ function Layout({ children, mode, toggleMode }) {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Typography variant="h6" component="div" sx={{ flexGrow: 1, fontWeight: 600 }}>
-                        {getPageTitle()}
-                    </Typography>
-                    <Box sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }} />
+                    <Box sx={{ flexGrow: 1 }} />
                     <IconButton
                         color="inherit"
                         onClick={toggleMode}
